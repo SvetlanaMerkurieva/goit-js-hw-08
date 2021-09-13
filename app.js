@@ -73,3 +73,20 @@ const addGallery = galleryItems
   .join(" ");
 
 galleryEl.insertAdjacentHTML("afterbegin", addGallery);
+
+const refs = {
+  openModal: document.querySelector(".gallery__image"),
+  closeModal: document.querySelector('[data-action="close-lightbox"]'),
+  modalWindow: document.querySelector('.lightbox'),
+};
+console.log(refs.openModal);
+refs.openModal.addEventListener('click', onModalOpen);
+refs.closeModal.addEventListener('click', onModalClose);
+
+function onModalOpen() {
+  refs.modalWindow.classList.add('is-open');
+};
+
+function onModalClose() {
+  refs.modalWindow.classList.remove('is-open');
+};
