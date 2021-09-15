@@ -63,7 +63,12 @@ const galleryItems = [
     description: 'Lighthouse Coast Sea',
   },
 ];
-const galleryEl = document.querySelector(".gallery");
+const galleryEl = document.querySelector('.gallery');
+const closeModal = document.querySelector('[data-action="close-lightbox"]');
+const modalWindow = document.querySelector('.lightbox');
+const imageEl = document.querySelector('.lightbox__image');
+const overlayEl = document.querySelector('.lightbox__overlay');
+
 const addGallery = galleryItems
   .map( item => {
     return `<li class="gallery__item">
@@ -74,19 +79,36 @@ const addGallery = galleryItems
 
 galleryEl.insertAdjacentHTML("afterbegin", addGallery);
 
-const refs = {
-  openModal: document.querySelector(".gallery__image"),
-  closeModal: document.querySelector('[data-action="close-lightbox"]'),
-  modalWindow: document.querySelector('.lightbox'),
-};
-console.log(refs.openModal);
-refs.openModal.addEventListener('click', onModalOpen);
-refs.closeModal.addEventListener('click', onModalClose);
 
-function onModalOpen() {
-  refs.modalWindow.classList.add('is-open');
+galleryEl.addEventListener('click', onModalOpen);
+closeModal.addEventListener('click', onModalClose);
+
+function onModalOpen(event) {
+  modalWindow.classList.add('is-open');
+  window.addEventListener('keydown', onEscKeyPress);
+  overlayEl.addEventListener('click', onOverlayClick);
+
+  galleryItems.forEach(image => {
+    if (event.target.src === image.preview) {
+      imageEl.src = `${image.original}`;
+    };
+  });
 };
 
 function onModalClose() {
-  refs.modalWindow.classList.remove('is-open');
+  modalWindow.classList.remove('is-open');
+  window.removeEventListener('keydown', onEscKeyPress);
+  imageEl.src = "";
+};
+
+function onEscKeyPress(event) {
+  if (event.code === 'Escape') {
+    onModalClose();
+  };
+};
+
+function onOverlayClick(event) {
+  if (event.currentTarget === event.target) {
+    onModalClose();
+  };
 };
