@@ -86,6 +86,7 @@ closeModal.addEventListener('click', onModalClose);
 function onModalOpen(event) {
   modalWindow.classList.add('is-open');
   window.addEventListener('keydown', onEscKeyPress);
+  window.addEventListener('keydown', onArrowsKeyPress);
   overlayEl.addEventListener('click', onOverlayClick);
 
   galleryItems.forEach(image => {
@@ -115,10 +116,15 @@ function onOverlayClick(event) {
   };
 };
 
-function onArrowsKeyPress (event) {
-  if (event.code === 'ArrowRight') {
-       
-  } else if (event.code === 'ArrowLeft') {
-    
-  }
-}
+function onArrowsKeyPress(event) {
+    let index = galleryItems.indexOf(galleryItems.find(item =>
+    item.original === imageEl.src));
+    if (event.code === 'ArrowRight') {
+      index += 1
+    } else if (event.code === 'ArrowLeft') {
+      index -= 1;
+    };
+    imageEl.src = `${galleryItems[index].original}`;
+    imageEl.alt = `${galleryItems[index].description}`;
+};
+
