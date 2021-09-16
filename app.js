@@ -91,6 +91,7 @@ function onModalOpen(event) {
   galleryItems.forEach(image => {
     if (event.target.src === image.preview) {
       imageEl.src = `${image.original}`;
+      imageEl.alt = `${image.description}`;
     };
   });
 };
@@ -98,6 +99,7 @@ function onModalOpen(event) {
 function onModalClose() {
   modalWindow.classList.remove('is-open');
   window.removeEventListener('keydown', onEscKeyPress);
+  window.removeEventListener('keydown', onArrowsKeyPress);
   imageEl.src = "";
 };
 
@@ -112,3 +114,11 @@ function onOverlayClick(event) {
     onModalClose();
   };
 };
+
+function onArrowsKeyPress (event) {
+  if (event.code === 'ArrowRight') {
+       
+  } else if (event.code === 'ArrowLeft') {
+    
+  }
+}
